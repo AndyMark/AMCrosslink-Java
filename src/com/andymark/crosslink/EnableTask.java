@@ -2,29 +2,29 @@ package com.andymark.crosslink;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 public class EnableTask implements Runnable {
 
 	private EnablePacket packet = new EnablePacket();
 	private UpdateJaguarPacket jag = new UpdateJaguarPacket();
-	private RCMPacket rcm = new RCMPacket();
+	private Canipede rcm = new Canipede();
 	
 	private static UDPSender sender = new UDPSender();
 	private static InetAddress broadcast;
 	private static DatagramSocket socket;
 	
 	public EnableTask(InetAddress destinationIP, DatagramSocket sock){
-		
-		
 		broadcast = destinationIP;
 		socket = sock;
-	}
+	}	
 	
-	
-	
-	
-	
+	public void ChangeIPAddress(InetAddress ip){		
+		broadcast = ip;				
+	}	
 	
 	public void setEnableState(EnableState state) {
 		packet.setEnableState(state);
@@ -33,22 +33,16 @@ public class EnableTask implements Runnable {
 	public EnableState getEnableState() {
 		return packet.getEnableState();
 	}
+
 	
-	public void setRelayState(int relay_num, byte dir){
-		
-		rcm.setRelayState(relay_num, dir);
-		
+	public Canipede GetCanipede(){			
+		return rcm;		
 	}
 	
-	public void setSolinoidState(int channel, boolean value){
-		
-		rcm.setSolenoidState(channel, value);
-		
-	}
 	
-	public void setPWM(int channel, short value){
-		rcm.setPWM(channel, value);		
-	}
+	//===============================================================
+	//	
+	//===============================================================
 	
 	@Override
 	public void run() {

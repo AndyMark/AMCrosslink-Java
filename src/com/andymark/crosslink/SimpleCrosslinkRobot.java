@@ -1,99 +1,88 @@
 package com.andymark.crosslink;
 
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.Inet4Address;
 
-
-
-//For Desktop Applications
-//===================================================
-//
-//+ Tested on Windows 7 64bit (11-8-2012)
-//
-//
+import com.andymark.crosslink.Inputs.AnalogInput;
 
 public class SimpleCrosslinkRobot {
 
   
-	protected ToucanController 	toucan; 
+	protected Toucan 	toucan; 
 	
-	public SimpleCrosslinkRobot(){
+	private AnalogInput battery;
+	private Canipede Canipede;
+	//private Solenoid light_bar;
+	
+	public SimpleCrosslinkRobot(Inet4Address ip){
+		
 		try{
-			//SetUp Toucan Controller
-			toucan = new ToucanController(/*ip*/);
 			
-		}catch (SocketException e){
-		
-		} catch (UnknownHostException e) {
-		
+			toucan = new Toucan(ip);           
+			battery = new AnalogInput(toucan, 8);
+			Canipede = toucan.GetCanipede();
+			
+			//light_bar = new Solenoid(Canipede, 1);
+			
+			
+			
+		}catch (Exception e) {		
 			e.printStackTrace();
 		}		
 	}
-	
-	public boolean isReceiving(){
 		
-		return toucan.isReceiving();
-	}
-	
-	public void ChangeIPAdress(InetAddress addr){
+	public boolean ReceivingPackets(){
 		
-		// toucan.ChangeIPAddress(addr); // - not imoplemented yet				
+		return toucan.ReceivingPackets();
 	}
 	
-	public void setPWM (int channel, short value){		
-		//send 0 - 100. 0 = full reverse, 100 = full forward, 48-52 = neutral
-		toucan.setPWM(channel, value);
+	public void ChangeIPAdress(Inet4Address ip){
+		toucan.ChangeIPAddress(ip);
+	}
+		
+	//===============================================================
+	//	CANDIPEDE RELATED CODE
+	//===============================================================	
+	public Canipede GetCanipede(){		
+		return Canipede;
+	}
+		
+	/*
+	public void setSolenoid(int channel, boolean value){		
+		Canipede.SetSolenoidValue(channel, value);
+	}		
+
+	
+	public void setRelay(int channel, byte dir){		
+		Canipede.SetRelayValue(channel, dir);			
 	}
 	
-	public int getQuad(int channel){		
-		return toucan.getQuad(channel);
+	public int GetEncoderPosition(int channel){		
+		return toucan.GetEncoderPosition(channel);
 	}
 	
-	public int getVelocity(int channel){		
-		return toucan.getVelocity(channel);
+	public int GetEncoderRate(int channel){		
+		return toucan.GetEncoderRate(channel);
 	}	
-		
+	*/	
 	
-	public double GetBatteryVoltage(){
-		AnalogInput analog = new AnalogInput(toucan, 8);	
-        return analog.BatteryVoltage();//battery.BatteryVoltage;
+	public double GetBatteryVoltage(){		
+        return battery.BatteryVoltage();
     }
-	
+    
 	public double GetVoltage(int channel){
 		AnalogInput analog = new AnalogInput(toucan, channel);		
 		return analog.Voltage();
-	}	
+	}		
 	
-	public byte getGpioDDR(){		
-		return toucan.getGpioDDR();		 
+	//===============================================================
+	//	ROBOT CODE
+	//===============================================================
+	public void teleop(){		
+		toucan.enableCanipede();
 	}
 	
-	public byte getGpioOut(){		
-		return toucan.getGpioOut();		 
-	}
-	
-	public byte getGpioIn(){		
-		return toucan.getGpioIn();		 
-	}
-	
-	public byte getGpioPUE(){		
-		return toucan.getGpioPUE();		 
-	}	
-
-	public void setRelay(int channel, byte dir){		
-		toucan.setRelay(channel, dir);			
-	}
-	public void setSolinoid (int channel, boolean value){		
-		toucan.setSolinoid( channel, value);		
-	}
-	
-	public /*virtual*/ void teleop(){		
-		toucan.enableToucan();
-	}
-	
-	public /*virtual*/ void disabled(){
-		toucan.disableToucan();
+	public void disabled(){
+		toucan.disableCanipede();
 	}
 	
 }

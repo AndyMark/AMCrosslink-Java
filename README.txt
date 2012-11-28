@@ -63,7 +63,8 @@ Regardless of desktop or android application, the following steps are the same:
 	
 	
 	Now you should be able to add "import com.andymark.crosslink.SimpleCrosslinkRobot;"
-	to your MainActivity.java file and start talking to the Crosslink system.
+	to your MainActivity.java file and start talking to the Crosslink system. The ip in 
+	this library is set to 10.10.0.121.
 	
 
 

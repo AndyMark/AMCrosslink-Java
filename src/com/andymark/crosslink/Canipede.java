@@ -3,7 +3,7 @@ package com.andymark.crosslink;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class RCMPacket implements Message {
+public class Canipede implements Message {
 	
 	private short pwm[] = new short[8];
 	private byte relay[] = new byte[4];
@@ -46,20 +46,20 @@ public class RCMPacket implements Message {
 	}
 	
 	
-	public void setRelayState(int channel, byte dir){
+	public void SetRelayValue(int channel, byte dir){
 		
 		relay[channel - 1] = dir;	
 		
 	}
 
-	public void setSolenoidState(int channel, boolean value){
+	public void SetSolenoidValue(int channel, boolean value){
 		solenoid[channel - 1] = (byte) (value ? 1:0);		
 	}
 	
-	public void setPWM(int channel, short value){
-		double scale = (((double)value)/100.0) * 8470.0;
-		scale += 3300;
+	public void SetPWMValue(int channel, short value){
+		//double scale = (((double)value)/100.0) * 8470.0;
+		//scale += 3300;
 		
-		pwm[channel] = (short) scale;
+		pwm[channel - 1] = value; //(short) scale;
 	}
 }

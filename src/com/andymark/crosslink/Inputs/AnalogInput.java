@@ -1,12 +1,14 @@
-package com.andymark.crosslink;
+package com.andymark.crosslink.Inputs;
+
+import com.andymark.crosslink.Toucan;
 
 public class AnalogInput {
 
-	private ToucanController toucan;	
+	private Toucan toucan;	
 	int channel; 
 	
 	
-	public AnalogInput(ToucanController toucan, int channel){		
+	public AnalogInput(Toucan toucan, int channel){		
 		this.toucan = toucan;
 		this.channel = channel;		
 	}
