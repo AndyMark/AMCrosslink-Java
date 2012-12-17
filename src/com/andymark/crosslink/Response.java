@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import com.andymark.crosslink.Packets.StatusPacket;
+
 public class Response {
 	
 	private InetAddress address;

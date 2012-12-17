@@ -13,6 +13,9 @@ public class UDPReceiver implements Runnable {
 	private static byte[] buffer = new byte[256];
 	private static DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 	
+	private int lastTS = 0;
+	private int thisTS = 0;
+	private int totalRX = 0;
 	
 	public UDPReceiver(int port) throws SocketException {
 		
@@ -35,10 +38,16 @@ public class UDPReceiver implements Runnable {
 	private void processPackets() throws IOException {
 		while (true) {
 			
+			lastTS = thisTS;
+		
 			socket.receive(packet);
-						
+				
+			thisTS = (int) System.currentTimeMillis();
+			totalRX++;
+			
 			response.updatePacket(packet);
-			 
+			
+			
 			isreceiving = response.isReceiving();			 	
 		}
 	}
@@ -90,4 +99,15 @@ public class UDPReceiver implements Runnable {
 		}
 	}
 
+	public int TimeFromLastRx(){
+		return thisTS - (int) System.currentTimeMillis();
+	}
+	
+	public int TimeBetweenRx(){		
+		return thisTS - lastTS;
+	}
+	
+	public int PacketsReceived(){
+		return totalRX;
+	}
 }

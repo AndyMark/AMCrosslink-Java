@@ -3,31 +3,29 @@ package com.andymark.crosslink;
 import java.net.Inet4Address;
 
 import com.andymark.crosslink.Inputs.AnalogInput;
+import com.andymark.crosslink.Packets.Canipede;
 
 public class SimpleCrosslinkRobot {
 
   
-	protected Toucan 	toucan; 
-	
+	protected Toucan 	toucan; 	
 	private AnalogInput battery;
-	private Canipede Canipede;
-	//private Solenoid light_bar;
+	
 	
 	public SimpleCrosslinkRobot(Inet4Address ip){
 		
-		try{
-			
-			toucan = new Toucan(ip);           
-			battery = new AnalogInput(toucan, 8);
-			Canipede = toucan.GetCanipede();
-			
-			//light_bar = new Solenoid(Canipede, 1);
-			
-			
-			
-		}catch (Exception e) {		
-			e.printStackTrace();
-		}		
+		toucan = new Toucan(ip);  			
+		battery = new AnalogInput(toucan, 8);
+	
+	}
+		
+	
+	//public State State (){
+	//
+	//}
+	
+	public void ChangeIPAdress(Inet4Address ip){
+		toucan.ChangeIPAddress(ip);
 	}
 		
 	public boolean ReceivingPackets(){
@@ -35,48 +33,14 @@ public class SimpleCrosslinkRobot {
 		return toucan.ReceivingPackets();
 	}
 	
-	public void ChangeIPAdress(Inet4Address ip){
-		toucan.ChangeIPAddress(ip);
-	}
-		
-	//===============================================================
-	//	CANDIPEDE RELATED CODE
-	//===============================================================	
-	public Canipede GetCanipede(){		
-		return Canipede;
-	}
-		
-	/*
-	public void setSolenoid(int channel, boolean value){		
-		Canipede.SetSolenoidValue(channel, value);
-	}		
-
-	
-	public void setRelay(int channel, byte dir){		
-		Canipede.SetRelayValue(channel, dir);			
-	}
-	
-	public int GetEncoderPosition(int channel){		
-		return toucan.GetEncoderPosition(channel);
-	}
-	
-	public int GetEncoderRate(int channel){		
-		return toucan.GetEncoderRate(channel);
-	}	
-	*/	
-	
 	public double GetBatteryVoltage(){		
         return battery.BatteryVoltage();
     }
-    
-	public double GetVoltage(int channel){
-		AnalogInput analog = new AnalogInput(toucan, channel);		
-		return analog.Voltage();
-	}		
 	
-	//===============================================================
-	//	ROBOT CODE
-	//===============================================================
+	//private void periodic(){
+	//
+	//}
+
 	public void teleop(){		
 		toucan.enableCanipede();
 	}
@@ -85,4 +49,21 @@ public class SimpleCrosslinkRobot {
 		toucan.disableCanipede();
 	}
 	
+	
+	
+	
+	
+	
+	
+	//=================================================
+	// Java Unique Methods
+	//=================================================
+	
+	public Canipede GetCanipede(){		
+		//This need to be here. If a user is not using a Canipede, 
+		//this wont be called and rcm packets wont be sent.
+		//	EnableTask.GetCanipede has a flag that is set by this
+		return toucan.GetCanipede();
+	}
+		
 }

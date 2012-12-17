@@ -57,7 +57,7 @@ Regardless of desktop or android application, the following steps are the same:
 			- Select "Java Build Path"
 				- Select "Libraries"
 				- Select "Add JARs..."
-				- Navigate to the "AMCrosslink-Java.jar" file
+				- Navigate to the "AM-Crosslink-Java.jar" file
 				- Click "OK"
 			- Click "OK"
 	

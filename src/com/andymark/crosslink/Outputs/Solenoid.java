@@ -1,6 +1,6 @@
 package com.andymark.crosslink.Outputs;
 
-import com.andymark.crosslink.Canipede;
+import com.andymark.crosslink.Packets.Canipede;
 
 
 public class Solenoid {

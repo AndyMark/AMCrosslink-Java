@@ -3,7 +3,6 @@ package com.andymark.crosslink;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 
@@ -21,21 +20,17 @@ public class UDPSender {
 	}
 	
 	public static void SendMessage(Message message, InetAddress broadcast, DatagramSocket socket) throws IOException {
-		//socket = new DatagramSocket();
-		//final InetAddress broadcast = Inet4Address.getByName("10.10.0.121"); //IP of the device to send to
+
 		buffer = message.getMessage();
-		//packet = new DatagramPacket(buffer.array(), buffer.capacity(), broadcast,  1217);
-		
-		
-		/**/
+
 		packet.setData(buffer.array());
 		packet.setLength(buffer.capacity());
 		
 		packet.setAddress(broadcast);
 		packet.setPort(1217);
-		/**/
 		
 		socket.send(packet);
 		
 	}
+
 }
